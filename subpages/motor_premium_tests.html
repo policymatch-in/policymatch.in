@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor Premium Calculator - PolicyMatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f8fa;
+            color: #333;
+        }
+        header {
+            background-color: #2C3E50;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #34495E;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        section {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+        input[type="number"], select, button {
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            display: block;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .checkbox-group {
+            margin-top: 20px;
+            text-align: left;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .checkbox-group label {
+            display: table;
+            margin-bottom: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        button {
+            background-color: #2C3E50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #34495E;
+        }
+        footer {
+            background-color: #2C3E50;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+        #additionalDropdowns {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+        }
+        .dropdown-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 30%;
+            min-width: 200px;
+        }
+        .dropdown-group label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Motor Premium Calculator</h1>
+    </header>
+    <nav>
+        <a href="../index.html">Home</a>
+        <!-- Add other navigation links as needed -->
+    </nav>
+    <section>
+        <h2>Calculate Your Motor Insurance Premium</h2>
+        <p>Details and form for calculating motor insurance premium...</p>
+        <!-- Addition form -->
+        <select id="vehicleType" onchange="handleSelectionChange()">
+            <option value="">Choose type of vehicle</option>
+            <option value="Two_Wheeler">2 Wheeler</option>
+            <option value="Private_Car">Private Car</option>
+            <option value="Goods_Carrier">Goods Carrier</option>
+            <option value="MISCD">Miscellaneous Vehicle</option>
+            <option value="Passenger_Carrier">Passenger Carrier</option>
+        </select>
+        <div id="additionalDropdowns"></div>
+    </section>
+    <footer>
+        <p>&copy; 2024 PolicyMatch. All rights reserved.</p>
+    </footer>
+    <script>
+        function handleSelectionChange() {
+            var vehicleTypeChosen = document.getElementById('vehicleType').value;
+            var container = document.getElementById('additionalDropdowns');
+            container.innerHTML = '';
+            var newSelect = document.createElement('select');
+            newSelect.onchange = function () { addMoreDropdowns(this.value); };
+
+
+
+            if (vehicleTypeChosen === "Private_Car") {
+                newSelect.innerHTML = `
+                    <option value="">Choose Type of Private Car Policy</option>
+                    <option value="B_E_L_1OD_3TP">Private Car Bundled Enhancement and Liability(1Yr OD and 3Yr TP)</option>
+                    <option value="B_P_L_1OD_3TP">Private Car Bundled Package and Liability(1 Yr OD and 3Yr TP)</option>
+                    <option value="B2B_PC">Private Car Enhancement Policy B2B</option>
+                    <option value="PackagePC">Private Car Package Policy</option>
+                    <option value="SAOD_PC_ADDONS">Private Car Standalone OD with Add Ons</option>
+                    <option value="SAOD_PC_WO_ADDONS">Private Car Standalone OD without Add Ons</option>
+                `;
+                container.appendChild(newSelect);
+            }
+
+            else if (vehicleTypeChosen === "Two_Wheeler") {
+        newSelect.innerHTML = `
+            <option value="">Choose Type of Two Wheeler Policy</option>
+            <option value="B_E_L_1OD_5TP">Two Wheeler Bundled Enhancement and Liability(1Yr OD and 5Yr TP)</option>
+            <option value="B_P_L_1OD_5TP">Two Wheeler Bundled Package and Liability)</option>
+            <option value="B2B_TW">Two Wheeler Enhancement Policy B2B</option>
+            <option value="PackageTW">Two Wheeler Package Policy</option>
+            <option value="SAOD_TW_ADDONS">Two Wheeler Standalone OD with Add Ons</option>
+            <option value="SAOD_TW_WO_ADDONS">Two Wheeler Standalone OD without Add Ons</option>
+        `;
+        container.appendChild(newSelect);
+    } else if (vehicleTypeChosen === "Goods_Carrier") {
+        newSelect.innerHTML = `
+            <option value="">Choose Type of Goods Carrier Policy</option>
+            <option value="A1P">A1 - Other than three wheelers - Package</option>
+            <option value="A1L">A1 - Other than three wheelers - Liability</option>
+            <option value="A2P">A2 - Three wheelers & pedal cycle - Package</option>
+            <option value="A2L">A2 - Three wheelers & Pedal Cycle - Liability</option>
+        `;
+        container.appendChild(newSelect);
+    } else if (vehicleTypeChosen === "Passenger_Carrier") {
+        newSelect.innerHTML = `
+            <option value="">Choose Type of Passenger Carrier Policy</option>
+            <option value="C1a">C1a - Four Wheeler (Carrying <=6) (Taxi)</option>
+            <option value="C1b">C1b - Three Wheeler (Carrying <=6)</option>
+            <option value="C2">C2 - Four Wheeler (Carrying >6) (Maxi Cab,Bus)</option>
+        `;
+        container.appendChild(newSelect);
+    }
+
+
+        }
+        function addMoreDropdowns(selection) {
+            var container = document.getElementById('additionalDropdowns');
+
+            if (selection === "B_E_L_1OD_3TP") {
+                addDropDown(container, 'Type of Fuel', ['','Petrol', 'Diesel', 'Electric','CNG','LPG','Bifuel','Hybrid']);
+                addDropDown(container, 'Cubic Capacity', ['','Less than 1000 CC', 'Upto 1500 CC', 'More than 1500 CC']);
+                addDropDown(container, 'Zone', ['','Zone A', 'Zone B']);
+                addDropDown(container,'NCB',['','0','20','25','35','45','50']);
+                addDropDown(container,'CPA for Owner -Driver',['','Full Duration','First Year','NO']);
+            }
+            else if(selection==="B_P_L_1OD_3TP"){
+              addDropDown(container, 'Type of Fuel', ['','Petrol', 'Diesel', 'Electric','CNG','LPG','Bifuel','Hybrid']);
+              addDropDown(container, 'Cubic Capacity', ['','Less than 1000 CC', 'Upto 1500 CC', 'More than 1500 CC']);
+              addDropDown(container, 'Zone', ['','Zone A', 'Zone B']);
+              addDropDown(container,'NCB',['','0','20','25','35','45','50']);
+              addDropDown(container,'CPA for Owner -Driver',['','Full Duration','First Year','NO']);
+
+            }
+
+
+        }
+        function addDropDown(container, label, options) {
+
+            var group = document.createElement('div');
+            group.className = 'dropdown-group';
+            var labelElement = document.createElement('label');
+            labelElement.textContent = label;
+            group.appendChild(labelElement);
+            var select = document.createElement('select');
+            options.forEach(function (option) {
+                var optionElement = document.createElement('option');
+                optionElement.value = option;
+                optionElement.textContent = option;
+                select.appendChild(optionElement);
+            });
+            group.appendChild(select);
+            container.appendChild(group);
+        }
+    </script>
+</body>
+</html>

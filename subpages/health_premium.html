@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name ="viewport" content ="width= device=width, initial-scale=1.0">
+	<title>Health Premium Calculator-PolicyMatch.in</title>
+	<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+	<header>
+		<h1>Health Premium Calculator</h1>
+	</header>
+	<nav>
+		<a href="../index.html">Home</a>
+		<a href="health_premium.html">Health Premium</a>
+	</nav>	
+	<section>
+		<h2> Calculate Your Health Insurance Premium </h2>
+		<p> Details for claculating Health Insurance </p>
+	</section>
+	<footer>
+		<p>&copy;2024 PolicyMatch.in All rights reserved</p>
+	</footer>
+
+	 <!-- JavaScript for Calculator -->
+    <script>
+        function calculatePremium() {
+            const claims = parseFloat(document.getElementById("claims").value);
+            const startDate = new Date(document.getElementById("startDate").value);
+            const endDate = new Date(document.getElementById("endDate").value);
+            const misDate = new Date(document.getElementById("misDate").value);
+
+            const ibnr = parseFloat(document.getElementById("ibnr").value) / 100;
+            const medicalInflation = parseFloat(document.getElementById("medicalInflation").value) / 100;
+            const dfsLoading = parseFloat(document.getElementById("dfsLoading").value) / 100;
+            const tpaFees = parseFloat(document.getElementById("tpaFees").value) / 100;
+            const brokerage = parseFloat(document.getElementById("brokerage").value) / 100;
+
+            const inceptionLives = parseInt(document.getElementById("inceptionLives").value);
+            const expiringLives = parseInt(document.getElementById("expiringLives").value);
+            const proposedLives = parseInt(document.getElementById("proposedLives").value);
+
+            // Calculate days between policy start and end date (inclusive)
+            const policyDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+            const misDays = Math.ceil((misDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
+            // Calculate Claims per day
+            const claimsPerDay = claims / misDays;
+
+            // Adjusted claims for the entire policy duration
+            const adjustedClaims = claimsPerDay * policyDays;
+
+            // Average lives
+            const averageLives = (inceptionLives + expiringLives) / 2;
+
+            // Renewal Double Net Premium Calculation
+            let renewalDoubleNetPremium = (adjustedClaims / averageLives) * (1 + ibnr) * (1 + medicalInflation) / (1 - dfsLoading) * proposedLives;
+
+            // Renewal Final Premium Calculation
+            let renewalFinalPremium = renewalDoubleNetPremium / (1 - brokerage - tpaFees);
+
+            // Display results
+            document.getElementById("result").innerHTML = `
+                Renewal Double Net Premium: ₹${renewalDoubleNetPremium.toFixed(2)}<br>
+                Renewal Final Premium: ₹${renewalFinalPremium.toFixed(2)}
+            `;
+        }
+    </script>
+
+   <script>
+    function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+	 // Logo in Base64 format or use a URL if hosted online
+      
+
+
+        // Set title with larger font and color
+        doc.setTextColor(0, 51, 102); // Dark blue color
+        doc.setFontSize(18);
+        doc.text("PolicyMatch.in - Insurance Quote", 10, 25);
+        doc.setFontSize(12);
+        doc.setTextColor(0); // Reset to black for content
+        doc.text("------------------------------------------------", 10, 27);
+
+        // Client Information Section
+        doc.setTextColor(0, 102, 153); // Blue color for section headers
+        doc.setFontSize(14);
+        doc.text("Client Information", 10, 33);
+
+        doc.setFontSize(12);
+        doc.setTextColor(0); // Black text for content
+        doc.text("Client Name: " + document.getElementById("clientName").value, 10, 38);
+
+        // Input Details Section with color and spacing
+        doc.setTextColor(0, 102, 153);
+        doc.setFontSize(14);
+        doc.text("Input Details", 10, 45);
+        doc.setFontSize(12);
+        doc.setTextColor(50, 50, 50); // Dark gray for input details
+
+        // Detailed input list
+        const inputDetails = [
+            `Premium: ₹${document.getElementById("premium").value}`,
+            `Claims: ₹${document.getElementById("claims").value}`,
+            `Policy Start Date: ${document.getElementById("startDate").value}`,
+            `Policy End Date: ${document.getElementById("endDate").value}`,
+            `MIS Date: ${document.getElementById("misDate").value}`,
+            `IBNR: ${document.getElementById("ibnr").value}%`,
+            `Medical Inflation: ${document.getElementById("medicalInflation").value}%`,
+            `DFS Loading: ${document.getElementById("dfsLoading").value}%`,
+            `TPA Fees: ${document.getElementById("tpaFees").value}%`,
+            `Brokerage: ${document.getElementById("brokerage").value}%`,
+            `Inception Lives: ${document.getElementById("inceptionLives").value}`,
+            `Expiring Lives: ${document.getElementById("expiringLives").value}`,
+            `Proposed Lives: ${document.getElementById("proposedLives").value}`
+        ];
+
+        let yPosition = 55;
+        inputDetails.forEach(detail => {
+            doc.text(detail, 10, yPosition);
+            yPosition += 10;
+        });
+
+        // Result Section with styling
+        doc.setTextColor(0, 102, 153); // Blue for section headers
+        doc.setFontSize(14);
+        doc.text("Calculation Results", 10, yPosition + 10);
+        doc.setFontSize(12);
+        doc.setTextColor(0); // Back to black for result content
+
+        // Result details with gray divider
+        doc.text("------------------------------------------------", 10, yPosition + 15);
+        const resultText = document.getElementById("result").innerText;
+        doc.text(resultText, 10, yPosition + 25);
+
+        // Save the enhanced PDF
+        doc.save("PolicyMatch_Enhanced_Quote.pdf");
+    }
+</script>
+	</body>
+	</html>
+	

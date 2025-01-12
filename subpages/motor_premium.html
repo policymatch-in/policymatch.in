@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor Premium Calculator - PolicyMatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f8fa;
+            color: #333;
+        }
+        header {
+            background-color: #2C3E50;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #34495E;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        section {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+        input[type="number"],select, button {
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            display: block;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .checkbox-group{
+          margin-top: 20px;
+          text-align: left;
+          width: auto;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .checkbox-group label{
+          display:table;
+          margin-bottom: 5px;
+          font-size: 14px;
+          cursor: pointer;
+        }
+
+
+
+
+        button {
+            background-color: #2C3E50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #34495E;
+        }
+        footer {
+            background-color: #2C3E50;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Motor Premium Calculator</h1>
+    </header>
+    <nav>
+        <a href="../index.html">Home</a>
+        <!-- Add other navigation links as needed -->
+    </nav>
+    <section>
+        <h2>Calculate Your Motor Insurance Premium</h2>
+        <p>Details and form for calculating motor insurance premium...</p>
+        <!-- Addition form -->
+        <input type="number" id="number1" placeholder="Enter IDV">
+        <input type="number" id="number2" placeholder="Enter second number">
+        <input type="number" id="number3" placeholder="Enter third number">
+        <select id="vehicleType">
+          <option value="car">Car</option>
+          <option value="lorry">Lorry</option>
+          <option value="twowheeler">Two Wheeler</option>
+        </select>
+        <div class="checkbox-group">
+          <label><input type ="checkbox" id="Nil_Depreciation">Nil Depreciation</label><br>
+          <label><input type ="checkbox" id="Tyre_Protect">Tyre Protect</label><br>
+          <label><input type ="checkbox" id="NCB_Protect">NCB Protect</label><br>
+          <label><input type ="checkbox" id="RSA_Protect">RSA Protect</label>
+        </div>
+
+
+        <button onclick="addNumbers()">Calculate Premium</button>
+        <p>Result: <span id="result">0</span></p>
+    </section>
+    <footer>
+        <p>&copy; 2024 PolicyMatch. All rights reserved.</p>
+    </footer>
+    <script>
+        function addNumbers() {
+            var num1 = parseFloat(document.getElementById('number1').value);
+            var num2 = parseFloat(document.getElementById('number2').value);
+            var num3 = parseFloat(document.getElementById('number3').value);
+            var vehicle = document.getElementById('vehicleType').value;
+            var vehicle_multiplier = 1;
+            var addon_multiplier = 1;
+
+            switch (vehicle) {
+              case "car":
+                vehicle_multiplier =2;
+                break;
+              case "lorry":
+                vehicle_multiplier=3;
+                break;
+              case "twowheeler":
+                vehicle_multiplier=4;
+                break;
+            }
+            var addon_multiplier=1;
+            if (document.getElementById('Nil_Depreciation').checked) addon_multiplier +=1;
+            if (document.getElementById('Tyre_Protect').checked) addon_multiplier +=1;
+            if (document.getElementById('RSA_Protect').checked) addon_multiplier +=1;
+            if (document.getElementById('NCB_Protect').checked) addon_multiplier +=1;
+
+
+            var sum = (num1 + num2 + num3)*vehicle_multiplier*addon_multiplier;
+            document.getElementById('result').innerText = `Total Premium for ${vehicle} is Rs. ${sum.toFixed(2)}`; // Displaying the result
+        }
+    </script>
+</body>
+</html>
